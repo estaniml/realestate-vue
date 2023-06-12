@@ -66,6 +66,11 @@ export default {
         console.log("No such document!");
       }
     },
+
+    filterList( type ) {
+      const filteredList = [...this.properties].filter( p => p.type === type)
+      this.filterProps = filteredList
+    }
   },
 };
 </script>
@@ -95,7 +100,7 @@ export default {
     .list {
         padding: 0;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 1rem;
     }
 }

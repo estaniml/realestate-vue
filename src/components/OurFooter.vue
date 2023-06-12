@@ -1,10 +1,10 @@
 <template>
   <footer class="container">
     <div>
-        <a href="">
+        <a href="https://www.linkedin.com/in/emartinezlacabe/" target="_blank" rel="noreferrer">
             <font-awesome-icon icon="fa-brands fa-linkedin" />
         </a>
-        <a href="">
+        <a href="https://github.com/estaniml" target="_blank" rel="noreferrer">
             <font-awesome-icon icon="fa-brands fa-github" />
         </a>
         <h4>Estanislao Martinez Lacabe</h4>
