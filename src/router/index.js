@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LogIn from '../views/LogIn.vue'
-import SignIn from '../views/SignIn.vue'
-import CurrentProperty from '../components/CurrentProperty.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,19 +10,24 @@ const router = createRouter({
         component: HomeView
     },
     {
-        path: '/property/:id',
+        path: '/property/:slug',
         name: 'Property',
-        component: CurrentProperty,
+        component: () => import(/* webpackChunkName: "AddProperty" */ '../components/CurrentProperty.vue'),
     },
     {
         path: '/login',
         name: 'Login',
-        component: LogIn,
+        component: () => import(/* webpackChunkName: "AddProperty" */ '../views/LoginView.vue'),
     },
     {
-        path: '/signin',
-        name: 'SignIn',
-        component: SignIn,
+        path: '/register',
+        name: 'Register',
+        component: () => import(/* webpackChunkName: "AddProperty" */ '../views/RegisterView.vue'),
+    },
+    {
+        path: '/add-property',
+        name: 'AddProperty',
+        component: () => import(/* webpackChunkName: "AddProperty" */ '../components/AddProperty.vue'),
     },
   
   ]

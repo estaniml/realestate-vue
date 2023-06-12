@@ -35,9 +35,9 @@ a{
     color: #fff;
 }
 .container {
-    width: 80%;
+    width: 70%;
     margin: 20px auto;
-    background: #4f46e5;
+    background: linear-gradient(45deg , #4f46e5 , #3f36e5, #3f36e5);
     color: #fff;
     padding:20px;
     border-radius: 10px;

@@ -23,7 +23,7 @@
 
 <script>
 export default {
-
+    
 }
 </script>
 
@@ -47,7 +47,6 @@ export default {
             box-shadow: 1px 1px 4px #575757ab;
             font-size: 14px;
             border: 1px solid #634bff;
-            cursor: pointer;
             transition: all 0.3s ease;
 
             &:hover {

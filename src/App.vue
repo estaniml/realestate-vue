@@ -17,7 +17,7 @@ export default {
     NavBar,
     OurFooter
     
-  }
+  },
 }
 </script>
 
@@ -32,6 +32,7 @@ body {
 a {
   text-decoration: none;
 }
+
 
 li {
   list-style: none;

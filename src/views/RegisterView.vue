@@ -1,26 +1,46 @@
 <template>
   <main class="container">
-    <form>
-      <h1>Log in to continue</h1>
+    <form @submit.prevent="register">
+      <h1>Register to continue</h1>
+      <div v-if="error" class="alert alert-danger">{{error}}</div>
       <div class="inputControl">
         <label for="username">Your username</label>
         <input 
-          placeholder="Username"
-          type="text"
+          placeholder="Username.."
+          type="name"
           id="username"
+          name="name"
+          required
+          v-model="name"
+        />
+      </div>
+
+      <div class="inputControl">
+        <label for="email">Your email</label>
+        <input 
+          placeholder="Email.."
+          type="email"
+          id="email"
+          name="email"
+          required
+          v-model="email"
         />
       </div>
 
       <div class="inputControl">
         <label for="password">Your password</label>
         <input 
-          placeholder="Password"
+          placeholder="Password.."
           type="password"
           id="password"
+          name="password"
+          required
+          v-model="password"
         />
       </div>
-      <button>
-        <span class="text">Log in</span>
+
+      <button type="submit">
+        <span class="text">Sign in</span>
       </button>
       <span>Or sign in with</span>
       <div class="brands">
@@ -28,19 +48,48 @@
           <font-awesome-icon icon="fa-brands fa-google" />
           <p>Google</p>
         </div>
-        <div>
+        <!-- <div>
           <font-awesome-icon icon="fa-brands fa-github" />
           <p>Github</p>
-        </div>
+        </div> -->
       </div>
     </form>
   </main>
 </template>
 
 <script>
-export default {
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      password: '',
+      error: null
+    }
+  },
+  methods: {
+    async register() {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+      .then((userCredential) => {
+        
+        const user = userCredential.user;
+        console.log(user);
+
+        this.$router.push('/')
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // ..
+      });
+    }
+  },
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -58,7 +107,6 @@ form {
   border-radius: 10px;
   padding: 40px;
   min-width: 400px;
-  background: white;
 
   > h1 {
     text-align: center;
@@ -97,6 +145,7 @@ form {
     box-shadow: 2px 2px 10px #ccc;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    border-radius: 8px;
 
     &:hover {
       opacity: 0.8;

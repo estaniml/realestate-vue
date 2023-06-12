@@ -1,54 +1,92 @@
 <template>
   <main class="container">
-    <form>
-      <h1>Sign in to continue</h1>
+    <form @submit.prevent="login">
+      <h1>Log in to continue</h1>
       <div class="inputControl">
-        <label for="username">Your username</label>
+        <label for="username">Your email</label>
         <input 
-          placeholder="Username"
-          type="text"
-          id="username"
+          placeholder="Email.."
+          type="email"
+          id="email"
+          name="email"
+          required
+          v-model="email"
         />
       </div>
 
       <div class="inputControl">
         <label for="password">Your password</label>
         <input 
-          placeholder="Password"
+          placeholder="Password.."
           type="password"
           id="password"
+          name="password"
+          required
+          v-model="password"
         />
       </div>
 
-      <div class="inputControl">
-        <label for="repeat">Repeat your password</label>
-        <input 
-          placeholder="Password"
-          type="password"
-          id="repeat"
-        />
-      </div>
-      <button>
-        <span class="text">Sign in</span>
+      <div v-if="error" class="error">{{ error }}</div>
+      
+      <button type="submit">
+        <span class="text">Log in</span>
       </button>
       <span>Or sign in with</span>
       <div class="brands">
-        <div>
+        <div @click="signInWithGoogle">
           <font-awesome-icon icon="fa-brands fa-google" />
           <p>Google</p>
         </div>
-        <div>
+        <!-- <div>
           <font-awesome-icon icon="fa-brands fa-github" />
           <p>Github</p>
-        </div>
+        </div> -->
       </div>
     </form>
   </main>
 </template>
 
 <script>
-export default {
+import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 
+
+export default {
+  data() {
+    return {
+      error: null
+    }
+  },
+  methods: {
+    signInWithGoogle() {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+      .then(() => {
+       this.$router.push('/')
+      }).catch((error) => {
+        this.error = error.message
+      });
+    },
+    login() {
+      const auth = getAuth();
+      console.log('hola');
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then((userCredential) => {
+          
+          const user = userCredential.user;
+          console.log(user);
+
+          this.$router.push('/')
+        })
+        .catch((error) => {
+          if( error.message == 'Firebase: Error (auth/wrong-password).'){
+            this.error = 'Wrong password';
+          } else if ( error.message ==  'Firebase: Error (auth/user-not-found).') {
+            this.error = 'User not found';
+          }
+        });
+    }
+  }
 }
 </script>
 
@@ -58,6 +96,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(60deg, #fff1f2, #eff6ff, #fff, #fff, #fff, #eff6ff, #fff1f2, #fff, #fff,#fefce8 );
 }
 
 form {
@@ -66,6 +105,7 @@ form {
   border-radius: 10px;
   padding: 40px;
   min-width: 400px;
+  background: white;
 
   > h1 {
     text-align: center;
@@ -104,6 +144,7 @@ form {
     box-shadow: 2px 2px 10px #ccc;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    border-radius: 8px;
 
     &:hover {
       opacity: 0.8;
@@ -145,4 +186,11 @@ form {
     }
   }
 }
+
+.error {
+  color: rgb(211, 3, 3);
+  font-weight: 600;
+  font-size: 14px;
+}
+
 </style>
