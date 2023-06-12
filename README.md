@@ -23,3 +23,4 @@ yarn lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 "# realestate-vue" 
+"# Vue-Real-Estate" 
